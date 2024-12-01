@@ -23,8 +23,8 @@ class ClientController extends Controller
     public function create()
     {
         $client = new Client();
-        $clientdesignation = Client::get()->pluck('name','id');
-        return view('backend.client.create', compact('client','clientdesignation'));
+        $clientdesignation = Client::get()->pluck('name', 'id');
+        return view('backend.client.create', compact('client', 'clientdesignation'));
     }
 
 
@@ -43,13 +43,14 @@ class ClientController extends Controller
 
             $imagename = time() . '-' . $image->getClientOriginalName(); // Use a unique name for each file
 
-
-            $path = $image->storeAs('images/clients', $imagename, 'public');
+            $directory = "upload/categoryimage/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
 
             $request['image'] = $path;
         }
-             $postData = $request->all();
-             Client::create($postData);
+        $postData = $request->all();
+        Client::create($postData);
 
         return redirect()->route('clients.index')
             ->with('success', 'Client created successfully.');
@@ -68,18 +69,33 @@ class ClientController extends Controller
 
         $post = Client::findOrFail($id);
 
-        $postData = $request->all(); // Get all request data
+
 
         // Optionally, validate the data
-        $request->validate([
+        if ($request->hasFile('photos')) {
 
-        ]);
+            $this->validate($request, [
+                'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',  // You can also limit the file size here
+            ]);
 
+
+            $image = $request->file('photos');
+
+            $imagename = time() . '-' . $image->getClientOriginalName(); // Use a unique name for each file
+
+            $directory = "upload/clientimage/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
+        }
+        $postData = $request->all(); // Get all request data
+
+        if ($path) {
+            $postData['image'] =  $path;
+        }
         $post->update($postData); // Update the post with new data
 
         return redirect()->route('clients.index')
             ->with('success', 'Client updated successfully');
-
     }
 
 

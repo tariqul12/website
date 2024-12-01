@@ -15,7 +15,7 @@ class TeamController extends Controller
     public function index()
     {
         $teams = Team::latest()->get();
-        return view('backend.team.index',compact('teams'));
+        return view('backend.team.index', compact('teams'));
     }
 
     /**
@@ -44,8 +44,9 @@ class TeamController extends Controller
                 $imagename = time() . '-' . $image->getClientOriginalName(); // Use a unique name for each file
 
 
-                $path = $image->storeAs('images/team', $imagename, 'public');
-
+                $directory = "upload/teamImage/";
+                $image->move($directory, $imagename);
+                $path = $directory . $imagename;
             }
             $postData = $request->all();
 
@@ -58,7 +59,6 @@ class TeamController extends Controller
             Team::create($postData);
 
             return redirect()->back()->with('success', 'Team saved successfully!');
-
         }
     }
 
@@ -76,7 +76,7 @@ class TeamController extends Controller
     public function edit(string $id)
     {
         $team = Team::find($id);
-        return view('backend.team.edit',compact('team'));
+        return view('backend.team.edit', compact('team'));
     }
 
     /**
@@ -84,22 +84,24 @@ class TeamController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
-        $team=Team::findOrFail($id);
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+
+        $team = Team::findOrFail($id);
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imagename = time() . '-' . $image->getClientOriginalName();
-            $path = $image->storeAs('images/team', $imagename, 'public');
+            $directory = "upload/teamImage/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
             $request['image'] = $path;
-    
+
             // Optionally delete old image from storage
             if ($team->image) {
                 \Storage::disk('public')->delete($team->image);
             }
         }
-    
+
         $team->update($request->all());
-    
+
         return redirect('teams');
     }
 
@@ -113,10 +115,10 @@ class TeamController extends Controller
             // Delete the image file from storage
             Storage::disk('public')->delete($team->image);
         }
-    
+
         // Delete the Team record
         $team->delete();
-    
+
         // Redirect back with a success message
         return redirect('teams');
     }

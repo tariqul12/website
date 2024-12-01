@@ -11,19 +11,22 @@
                         <span class="card-title">Add New contacts</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('contacts.store') }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('contacts.store') }}" role="form"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="banner_title" class="form-label">Banner Title*</label>
-                                    <input type="text" id="banner_title" name="banner_title" class="form-control" required>
+                                    <input type="text" id="banner_title" name="banner_title" class="form-control"
+                                        required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="banner_description" class="form-label">Banner Description</label>
-                                    <input type="text" id="banner_description" name="banner_description"  class="form-control" >
+                                    <input type="text" id="banner_description" name="banner_description"
+                                        class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -65,7 +68,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
 
                                 <div class="col-md-8">
                                     <div class="form-group">
@@ -73,10 +76,11 @@
                                         <input type="file" name="photos" id="photo" class="form-control">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light btn-lg">Save</button>
+                                    <button type="submit"
+                                        class="btn btn-success waves-effect waves-light btn-lg">Save</button>
                                 </div>
                             </div>
 

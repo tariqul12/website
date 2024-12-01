@@ -43,13 +43,14 @@ class BannerController extends Controller
 
             $imagename = time() . '-' . $image->getClientOriginalName(); // Use a unique name for each file
 
-
-            $path = $image->storeAs('images/banners', $imagename, 'public');
+            $directory = "upload/banner/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
 
             $request['image'] = $path;
         }
-             $postData = $request->all();
-             Banner::create($postData);
+        $postData = $request->all();
+        Banner::create($postData);
 
         return redirect()->route('banners.index')
             ->with('success', 'Client created successfully.');
@@ -63,52 +64,56 @@ class BannerController extends Controller
 
 
     public function update(Request $request, $id)
-{
-    // Validate the incoming request data
-    $request->validate([
-        // Your other validation rules
-        'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image if provided
-    ]);
-
-    // Find the existing Banner by its ID
-    $Banner = Banner::findOrFail($id);
-
-    // Check if the request has a file for the photos
-    if ($request->hasFile('photos')) {
-        // Validate the uploaded file
-        $this->validate($request, [
-            'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // You can also limit the file size here
+    {
+        // Validate the incoming request data
+        $request->validate([
+            // Your other validation rules
+            'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image if provided
         ]);
 
-        // Get the uploaded file
-        $image = $request->file('photos');
+        // Find the existing Banner by its ID
+        $Banner = Banner::findOrFail($id);
 
-        // Create a unique name for the image
-        $imagename = time() . '-' . $image->getClientOriginalName();
+        // Check if the request has a file for the photos
+        if ($request->hasFile('photos')) {
+            // Validate the uploaded file
+            $this->validate($request, [
+                'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // You can also limit the file size here
+            ]);
 
-        // Store the image in the 'images/Banners' directory
-        $path = $image->storeAs('images/banner', $imagename, 'public');
+            // Get the uploaded file
+            $image = $request->file('photos');
 
-        // Set the new image path
-        $request['image'] = $path;
+            // Create a unique name for the image
+            $imagename = time() . '_' . $image->getClientOriginalExtension();
+            $directory = "upload/clientimage/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
 
-        // Delete the old image if it exists
-        if ($Banner->image) {
-            Storage::delete('public/' . $Banner->image);
+            // Set the new image path
+            $request['image'] = $path;
+
+            // Delete the old image if it exists
+            if (file_exists($Banner->image)) {
+                unlink($Banner->image);
+            }
         }
+
+        // Update the Banner with the request data
+        $Banner->update($request->all());
+
+        // Redirect with success message
+        return redirect()->route('banners.index')
+            ->with('success', 'Banner updated successfully.');
     }
-
-    // Update the Banner with the request data
-    $Banner->update($request->all());
-
-    // Redirect with success message
-    return redirect()->route('banners.index')
-        ->with('success', 'Banner updated successfully.');
-}
 
     public function destroy($id)
     {
         $banner = Banner::find($id)->delete();
+
+        if (file_exists($banner->image)) {
+            unlink($banner->image);
+        }
 
         return redirect()->route('banners.index')
             ->with('success', 'Abouts deleted successfully');

@@ -32,23 +32,24 @@
                                 <tbody>
                                     @foreach ($banners as $banner)
                                         <tr>
-                                            <td>{{ $banner->id  }}</td>
-                                            <td>{{ $banner->title  }}</td>
-                                            <td>{{ $banner->description  }}</td>
-                                            <td><img src="{{ Storage::url($banner->image) }}" width="80" height="80" alt=""></td>
+                                            <td>{{ $banner->id }}</td>
+                                            <td>{{ $banner->title }}</td>
+                                            <td>{{ $banner->description }}</td>
+                                            <td><img src="{{ asset($banner->image) }}" width="80" height="80"
+                                                    alt=""></td>
 
 
                                             <td>
                                                 <form action="{{ route('banners.destroy', $banner->id) }}" method="POST">
 
-                                                        <a class="btn btn-sm btn-success"
-                                                            href="{{ route('banners.edit', $banner->id) }}"><i
-                                                                class="fa fa-fw fa-edit"></i> Edit</a>
+                                                    <a class="btn btn-sm btn-success"
+                                                        href="{{ route('banners.edit', $banner->id) }}"><i
+                                                            class="fa fa-fw fa-edit"></i> Edit</a>
 
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fa fa-fw fa-trash"></i> Delete</button>
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i
+                                                            class="fa fa-fw fa-trash"></i> Delete</button>
 
                                                 </form>
                                             </td>

@@ -16,7 +16,7 @@ class ServiceController extends Controller
     {
         $services = Service::all();
 
-        return view('backend.service.index',compact('services'));
+        return view('backend.service.index', compact('services'));
     }
 
 
@@ -44,13 +44,14 @@ class ServiceController extends Controller
 
             $imagename = time() . '-' . $image->getClientOriginalName(); // Use a unique name for each file
 
-
-            $path = $image->storeAs('images/services', $imagename, 'public');
+            $directory = "upload/servicesimage/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
 
             $request['image'] = $path;
         }
-             $postData = $request->all();
-             Service::create($postData);
+        $postData = $request->all();
+        Service::create($postData);
 
         return redirect()->route('services.index')
             ->with('success', 'Client created successfully.');
@@ -64,48 +65,49 @@ class ServiceController extends Controller
 
 
     public function update(Request $request, $id)
-{
-    // Validate the incoming request data
-    $request->validate([
-        // Your other validation rules
-        'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image if provided
-    ]);
-
-    // Find the existing service by its ID
-    $service = Service::findOrFail($id);
-
-    // Check if the request has a file for the photos
-    if ($request->hasFile('photos')) {
-        // Validate the uploaded file
-        $this->validate($request, [
-            'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // You can also limit the file size here
+    {
+        // Validate the incoming request data
+        $request->validate([
+            // Your other validation rules
+            'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate image if provided
         ]);
 
-        // Get the uploaded file
-        $image = $request->file('photos');
+        // Find the existing service by its ID
+        $service = Service::findOrFail($id);
 
-        // Create a unique name for the image
-        $imagename = time() . '-' . $image->getClientOriginalName();
+        // Check if the request has a file for the photos
+        if ($request->hasFile('photos')) {
+            // Validate the uploaded file
+            $this->validate($request, [
+                'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // You can also limit the file size here
+            ]);
 
-        // Store the image in the 'images/services' directory
-        $path = $image->storeAs('images/services', $imagename, 'public');
+            // Get the uploaded file
+            $image = $request->file('photos');
 
-        // Set the new image path
-        $request['image'] = $path;
+            // Create a unique name for the image
+            $imagename = time() . '-' . $image->getClientOriginalName();
 
-        // Delete the old image if it exists
-        if ($service->image) {
-            Storage::delete('public/' . $service->image);
+            $directory = "upload/servicesimage/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
+
+            // Set the new image path
+            $request['image'] = $path;
+
+            // Delete the old image if it exists
+            if ($service->image) {
+                Storage::delete('public/' . $service->image);
+            }
         }
+
+        // Update the service with the request data
+        $service->update($request->all());
+
+        // Redirect with success message
+        return redirect()->route('services.index')
+            ->with('success', 'Service updated successfully.');
     }
-
-    // Update the service with the request data
-    $service->update($request->all());
-
-    // Redirect with success message
-    return redirect()->route('services.index')
-        ->with('success', 'Service updated successfully.');
-}
 
 
 

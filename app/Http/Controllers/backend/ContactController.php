@@ -43,13 +43,14 @@ class ContactController extends Controller
             $image = $request->file('photos');
 
             $imagename = time() . '-' . $image->getClientOriginalName(); // Use a unique name for each file
-
-            $path = $image->storeAs('images/contact', $imagename, 'public');
+            $directory = "upload/contactimage/";
+            $image->move($directory, $imagename);
+            $path = $directory . $imagename;
 
             $request['image'] = $path;
         }
-             $postData = $request->all();
-             Contact::create($postData);
+        $postData = $request->all();
+        Contact::create($postData);
 
         return redirect()->route('contacts.index')
             ->with('success', 'Contact created successfully.');
@@ -66,20 +67,29 @@ class ContactController extends Controller
     {
 
 
-        $post = Contact::findOrFail($id);
+        if ($request->hasFile('photos')) {
+            $this->validate($request, [
+                'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate the image
+            ]);
 
-        $postData = $request->all(); // Get all request data
+            $image = $request->file('photos');
+            $imagename = time() . '-' . $image->getClientOriginalName(); // Generate a unique name
+            $directory = "upload/contactimage/";
+            $image->move($directory, $imagename); // Move the file to the directory
+            $path = $directory . $imagename; // Full path of the image
 
-        // Optionally, validate the data
-        $request->validate([
+            $request['image'] = $path; // Add the image path to the request
+        }
 
-        ]);
+        // Retrieve the specific record to update
+        $contact = Contact::findOrFail($id); // Replace $id with the actual contact ID
 
-        $post->update($postData); // Update the post with new data
+        // Update the record with new data
+        $postData = $request->all();
+        $contact->update($postData);
 
         return redirect()->route('contacts.index')
-            ->with('success', 'Contact updated successfully');
-
+            ->with('success', 'Contact updated successfully.');
     }
 
 
