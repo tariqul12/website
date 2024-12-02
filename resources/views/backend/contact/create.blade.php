@@ -14,25 +14,12 @@
                         <form method="POST" action="{{ route('contacts.store') }}" role="form"
                             enctype="multipart/form-data">
                             @csrf
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="banner_title" class="form-label">Banner Title*</label>
-                                    <input type="text" id="banner_title" name="banner_title" class="form-control"
-                                        required>
-                                </div>
-                            </div>
+
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="banner_description" class="form-label">Banner Description</label>
-                                    <input type="text" id="banner_description" name="banner_description"
-                                        class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
                                     <label for="map" class="form-label">Map</label>
-                                    <input type="text" id="map" name="map" class="form-control">
+                                    <textarea type="text" id="map" name="map" class="form-control"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">

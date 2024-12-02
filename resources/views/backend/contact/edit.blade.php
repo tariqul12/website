@@ -34,8 +34,8 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="exampleInputFile">Phone</label>
-                                        <input type="text" name="phone" id="phone"><img src="{{ $contact->phone }}"
-                                            alt="" class="form-control">
+                                        <input type="text" class="form-control" value="{{ $contact->phone }}"
+                                            name="phone" id="phone">
                                     </div>
                                 </div>
                             </div>

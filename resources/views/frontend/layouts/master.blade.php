@@ -1,32 +1,15 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
 
 <head>
     <title>JellyNet - Bootstrap 4 HTML template</title>
     <meta charset="utf-8">
-    <!--[if IE]>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <![endif]-->
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/animations.css">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/regular.min.css">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/brands.min.css">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/solid.min.css">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/fontawesome.min.css">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/font-awesome.css">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/main.css" class="color-switcher-link">
-    <link rel="stylesheet" href="{{ asset('/') }}frontend/css/shop.css" class="color-switcher-link">
-    <script src="{{ asset('/') }}frontend/js/vendor/modernizr-custom.js"></script>
+    @include('frontend.includes.style')
 
 </head>
 
@@ -148,20 +131,6 @@
     </div>
 
 
-    <!-- Unyson messages modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="messages_modal">
-        <div class="fw-messages-wrap ls p-normal">
-            <!-- Uncomment this UL with LI to show messages in modal popup to your user: -->
-            <!--
-  <ul class="list-unstyled">
-   <li>Message To User</li>
-  </ul>
-  -->
-
-        </div>
-    </div><!-- eof .modal -->
-
-
     <!-- wrappers for visual page editor and boxed version of template -->
     <div id="canvas">
         <div id="box_wrapper">
@@ -182,14 +151,10 @@
         </div><!-- eof #box_wrapper -->
     </div><!-- eof #canvas -->
 
-
-    <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="{{ asset('/') }}frontend/js/compressed.js"></script>
     <script src="{{ asset('/') }}frontend/js/main.js"></script>
 
 </body>
 
-
-<!-- Mirrored from html.modernwebtemplates.com/jellynet/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Dec 2024 06:39:48 GMT -->
 
 </html>

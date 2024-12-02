@@ -13,18 +13,15 @@
             <div class="col-lg-12 col-xl-9 text-center text-xl-right">
                 <ul class="top-line-includes-first top-includes">
                     <li>
-                        <p class="address_top"> <i class="ico icon-placeholder"></i> 2231 Johnstown Road
-                            Bensenville, IL 60106 </p>
+                        <p class="address_top"> <i class="ico icon-placeholder"></i>{{ $contact_home->address }} </p>
                     </li>
                     <li>
-                        <p class="email_top"><a
-                                href="https://html.modernwebtemplates.com/cdn-cgi/l/email-protection#0b6e736a667b676e4b64677c6e6a25686466"><i
-                                    class="fa fa-envelope"></i> <span class="__cf_email__"
-                                    data-cfemail="0c69746d617c60694c6669606075626978226f6361">[email&#160;protected]</span></a>
+                        <p class="email_top">{{ $contact_home->email }}
                         </p>
                     </li>
                     <li>
-                        <p class="phone_number"> <i class="ico icon-icon"></i><a href="tel:805671234">800.567.1234</a>
+                        <p class="phone_number"> <i class="ico icon-icon"></i><a
+                                href="tel:805671234">{{ $contact_home->phone }}</a>
                         </p>
                     </li>
                 </ul>
@@ -57,20 +54,19 @@
                         <ul class="nav sf-menu">
 
 
-                            <li class="active">
+                            <li class="{{ Route::currentRouteName() == 'frontend' ? 'active' : '' }}">
                                 <a href="{{ route('frontend') }}">Home</a>
                             </li>
-
-                            <li>
+                            <li class="{{ Route::currentRouteName() == 'about' ? 'active' : '' }}">
                                 <a href="{{ route('about') }}">About</a>
                             </li>
-                            <li>
+                            <li class="{{ Route::currentRouteName() == 'package' ? 'active' : '' }}">
                                 <a href="{{ route('package') }}">Package</a>
                             </li>
-                            <li>
+                            <li class="{{ Route::currentRouteName() == 'service' ? 'active' : '' }}">
                                 <a href="{{ route('service') }}">Service</a>
                             </li>
-                            <li>
+                            <li class="{{ Route::currentRouteName() == 'contact' ? 'active' : '' }}">
                                 <a href="{{ route('contact') }}">Contact</a>
                             </li>
                             <!-- eof pages -->

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,16 +26,24 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        if (Auth::check() && Auth::user()->is_admin) {
+            return '/dashboard'; // Redirect admin users to the dashboard
+        }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+        return '/home'; // Redirect regular users to home
+    }
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+    }
+    public function logout()
+    {
+        Auth::logout(); // Logs out the user
+
+        // Redirect to a specific route, e.g., login page
+        return redirect('/')->with('success', 'You have successfully logged out.');
     }
 }

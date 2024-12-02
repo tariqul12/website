@@ -13,9 +13,10 @@
                         <span class="card-title">Add New Cliend</span>
                     </div>
                     <div class="card-body" style="margin-left: 34%;">
-                        <form method="POST" action="{{ route('clients.store') }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('clients.store') }}" role="form"
+                            enctype="multipart/form-data">
                             @csrf
-                        <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name*</label>
                                     <input type="text" id="name" name="name" class="form-control" required>
@@ -25,13 +26,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input type="text" id="phone" name="phone" onkeypress="return numbersOnly(event)" class="form-control" >
+                                    <input type="text" id="phone" name="phone"
+                                        onkeypress="return numbersOnly(event)" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ag_mobile_no" class="form-label">Email*</label>
-                                    <input type="text" id="email" name="email" class="form-control" onkeypress="return numbersOnly(event)" >
+                                    <input type="text" id="email" name="email" class="form-control"
+                                        onkeypress="return numbersOnly(event)">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -51,7 +54,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-1 mt-3 text-center">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light btn-lg">Save</button>
+                                    <button type="submit"
+                                        class="btn btn-success waves-effect waves-light btn-lg">Save</button>
                                 </div>
                             </div>
 

@@ -20,13 +20,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     public function clients()
     {
         return $this->hasMany(Client::class);
     }
-
+    protected $casts = [
+        'is_admin' => 'boolean', // Cast to boolean for easy checking
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *

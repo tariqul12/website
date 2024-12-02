@@ -65,11 +65,8 @@ class ClientController extends Controller
 
     public function update(Request $request, $id)
     {
-
-
         $post = Client::findOrFail($id);
-
-
+        $path = null;
 
         // Optionally, validate the data
         if ($request->hasFile('photos')) {
@@ -77,8 +74,6 @@ class ClientController extends Controller
             $this->validate($request, [
                 'photos' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',  // You can also limit the file size here
             ]);
-
-
             $image = $request->file('photos');
 
             $imagename = time() . '-' . $image->getClientOriginalName(); // Use a unique name for each file

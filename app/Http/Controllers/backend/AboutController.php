@@ -94,8 +94,7 @@ class AboutController extends Controller
 
     public function update(Request $request, $id)
     {
-
-
+        // Validate the incoming request
         $this->validate($request, [
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'future_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -103,69 +102,77 @@ class AboutController extends Controller
             'trustpilot_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Retrieve the existing record from the database
-        $about = About::findOrFail($id);  // Find the About record by ID, or fail if not found
+        // Find the existing record in the About model
+        $about = About::findOrFail($id);
 
         // Initialize an array to hold the paths for all the images
         $imagePaths = [];
 
-        // Handle the 'image' field upload
+        // Handle the 'image' field update
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($about->image && \Storage::disk('public')->exists($about->image)) {
-                \Storage::disk('public')->delete($about->image);
+            // Delete the old file if it exists
+            if (!empty($about->image) && file_exists($about->image)) {
+                unlink($about->image);
             }
+
             $image = $request->file('image');
-            $imageName = time() . '-' . $image->getClientOriginalName(); // Generate a unique name
-            $path = $image->storeAs('images/about', $imageName, 'public');  // Store in public/images/about
-            $imagePaths['image'] = $path;  // Store the path in the array
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $directory = "upload/aboutimage/";
+            $image->move($directory, $imageName);
+            $imagePaths['image'] = $directory . $imageName;
         }
 
-        // Handle the 'future_image' field upload
+        // Handle the 'future_image' field update
         if ($request->hasFile('future_image')) {
-            // Delete old image if exists
-            if ($about->future_image && \Storage::disk('public')->exists($about->future_image)) {
-                \Storage::disk('public')->delete($about->future_image);
+            // Delete the old file if it exists
+            if (!empty($about->future_image) && file_exists($about->future_image)) {
+                unlink($about->future_image);
             }
+
             $futureImage = $request->file('future_image');
-            $futureImageName = time() . '-' . $futureImage->getClientOriginalName(); // Generate a unique name
-            $futureImagePath = $futureImage->storeAs('images/about', $futureImageName, 'public');  // Store in public/images/about
-            $imagePaths['future_image'] = $futureImagePath;  // Store the path in the array
+            $futureImageName = time() . '-' . $futureImage->getClientOriginalName();
+            $directory = "upload/aboutimage/";
+            $futureImage->move($directory, $futureImageName);
+            $imagePaths['future_image'] = $directory . $futureImageName;
         }
 
-        // Handle the 'customer_satisfaction_image' field upload
+        // Handle the 'customer_satisfaction_image' field update
         if ($request->hasFile('customer_satisfaction_image')) {
-            // Delete old image if exists
-            if ($about->customer_satisfaction_image && \Storage::disk('public')->exists($about->customer_satisfaction_image)) {
-                \Storage::disk('public')->delete($about->customer_satisfaction_image);
+            // Delete the old file if it exists
+            if (!empty($about->customer_satisfaction_image) && file_exists($about->customer_satisfaction_image)) {
+                unlink($about->customer_satisfaction_image);
             }
+
             $customerSatisfactionImage = $request->file('customer_satisfaction_image');
-            $customerSatisfactionImageName = time() . '-' . $customerSatisfactionImage->getClientOriginalName(); // Generate a unique name
-            $customerSatisfactionImagePath = $customerSatisfactionImage->storeAs('images/about', $customerSatisfactionImageName, 'public');  // Store in public/images/about
-            $imagePaths['customer_satisfaction_image'] = $customerSatisfactionImagePath;  // Store the path in the array
+            $imageName = time() . '-' . $customerSatisfactionImage->getClientOriginalName();
+            $directory = "upload/aboutimage/";
+            $customerSatisfactionImage->move($directory, $imageName);
+            $imagePaths['customer_satisfaction_image'] = $directory . $imageName;
         }
 
-        // Handle the 'trustpilot_image' field upload
+        // Handle the 'trustpilot_image' field update
         if ($request->hasFile('trustpilot_image')) {
-            // Delete old image if exists
-            if ($about->trustpilot_image && \Storage::disk('public')->exists($about->trustpilot_image)) {
-                \Storage::disk('public')->delete($about->trustpilot_image);
+            // Delete the old file if it exists
+            if (!empty($about->trustpilot_image) && file_exists($about->trustpilot_image)) {
+                unlink($about->trustpilot_image);
             }
+
             $trustpilotImage = $request->file('trustpilot_image');
-            $trustpilotImageName = time() . '-' . $trustpilotImage->getClientOriginalName(); // Generate a unique name
-            $trustpilotImagePath = $trustpilotImage->storeAs('images/about', $trustpilotImageName, 'public');  // Store in public/images/about
-            $imagePaths['trustpilot_image'] = $trustpilotImagePath;  // Store the path in the array
+            $imageName = time() . '-' . $trustpilotImage->getClientOriginalName();
+            $directory = "upload/aboutimage/";
+            $trustpilotImage->move($directory, $imageName);
+            $imagePaths['trustpilot_image'] = $directory . $imageName;
         }
 
         // Merge the image paths into the form data
         $postData = $request->all();
         $postData = array_merge($postData, $imagePaths);  // Merge image paths into form data
 
-        // Update the existing About record with the new data
+        // Update the existing record in the About model
         $about->update($postData);
 
         return redirect()->route('abouts.index')
-            ->with('success', 'About updated successfully');
+            ->with('success', 'About updated successfully.');
     }
 
 

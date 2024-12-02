@@ -21,11 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/',[FrontendController::class,'index'])->name('frontend');
-Route::get('/package',[FrontendController::class,'package'])->name('package');
-Route::get('/service',[FrontendController::class,'service'])->name('service');
-Route::get('/about',[FrontendController::class,'about'])->name('about');
-Route::get('/contact',[FrontendController::class,'contact'])->name('contact');
+Route::get('/', [FrontendController::class, 'index'])->name('frontend');
+Route::get('/package', [FrontendController::class, 'package'])->name('package');
+Route::get('/service', [FrontendController::class, 'service'])->name('service');
+Route::get('/about', [FrontendController::class, 'about'])->name('about');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 
 
@@ -37,16 +37,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 // Route::resource('users', UserController::class);
-Route::resource('banners', BannerController::class);
-Route::resource('contacts', ContactController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('services', ServiceController::class);
-Route::resource('packages', PakageController::class);
-Route::resource('abouts', AboutController::class);
-Route::resource('clients', ClientController::class);
-Route::resource('teams', TeamController::class);
-Route::resource('frequents', FrequentController::class);
-Route::resource('tconditons', TconditionController::class);
-Route::resource('policies', PolicyController::class);
-Route::get('/dashboard',[BackendController::class,'index'])->name('dashboard');
-
+Route::middleware(['admin'])->group(function () {
+    Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+    Route::resource('banners', BannerController::class);
+    Route::resource('contacts', ContactController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('services', ServiceController::class);
+    Route::resource('packages', PakageController::class);
+    Route::resource('abouts', AboutController::class);
+    Route::resource('clients', ClientController::class);
+    Route::resource('teams', TeamController::class);
+    Route::resource('frequents', FrequentController::class);
+    Route::resource('tconditons', TconditionController::class);
+    Route::resource('policies', PolicyController::class);
+    Route::get('/dashboard', [BackendController::class, 'index'])->name('dashboard');
+});
