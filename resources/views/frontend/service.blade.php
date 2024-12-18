@@ -1,7 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('body')
-    <section class="page_title cover-background padding-mobile cs s-py-60 s-py-md-80 s-pt-xl-100 s-pb-xl-115">
+    <section  style="background-image:url('{{$banner_image->image}}')" class="page_title padding-mobile cs s-py-60 s-py-md-80 s-pt-xl-100 s-pb-xl-115">
         <div class="container">
             <div class="row">
 

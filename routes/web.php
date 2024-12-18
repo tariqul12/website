@@ -26,6 +26,7 @@ Route::get('/package', [FrontendController::class, 'package'])->name('package');
 Route::get('/service', [FrontendController::class, 'service'])->name('service');
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
+Route::post('/package/order/{id}', [FrontendController::class, 'order'])->name('package.order');
 
 
 

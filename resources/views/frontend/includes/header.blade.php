@@ -28,7 +28,7 @@
                 <ul class="top-line-includes-second top-includes">
                     <li>
                         <span>
-                            <a class="phone_modal_button" href="#sign_in_modal">Login / Sign Up</a>
+                            {{-- <a class="phone_modal_button" href="#sign_in_modal">Login / Sign Up</a> --}}
                         </span>
                     </li>
                 </ul>
@@ -42,8 +42,9 @@
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-xl-2 col-lg-3 col-md-4 col-11">
-                <a href="index-2.html" class="logo">
-                    <img src="{{ asset('/') }}frontend/images/logo_light.png" alt="">
+                <a href="{{ route('frontend') }}" class="logo">
+                    <img src="{{ asset('/') }}frontend/images/smartnet.jpg" alt="">
+                    {{-- <h4>SMART NET</h4> --}}
                 </a>
             </div>
             <div class="col-xl-10 col-lg-9 col-md-8 col-1">

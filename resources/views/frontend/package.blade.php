@@ -1,14 +1,15 @@
 @extends('frontend.layouts.master')
 
 @section('body')
-    <section class="page_title cover-background padding-mobile cs s-py-60 s-py-md-80 s-pt-xl-100 s-pb-xl-115">
+    <section style="background-image:url('{{ $banner_image->image }}')"
+        class="page_title padding-mobile cs s-py-60 s-py-md-80 s-pt-xl-100 s-pb-xl-115">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="bold">PACKAGES</h1>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index-2.html">Home</a>
+                            <a href="#">Home</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="#">Pages</a>
@@ -38,40 +39,45 @@
                 @foreach ($pakages as $k => $package)
                     <div class="col-lg-4 col-md-4">
                         <div class="pricing-plan box-shadow color_style1">
-                            <div class="plan-name">
-                                <h3>
-                                    {{ $package->title }}
-                                </h3>
+                            <!-- Plan Name -->
+                            <div class="plan-name text-center">
+                                <h3>{{ $package->title }}</h3>
                             </div>
+
+                            <!-- Plan Details -->
                             <div class="plan-header">
-                                <ul>
+                                <ul class="list-unstyled text-center m-auto">
                                     <li>
-                                        <p class="plan-header-title">internet</p>
-                                        <p class="plan-header-aftertitle">{{ $package->speed }} Mbps</p>
+                                        <p class="plan-header-title">Internet Speed</p>
+                                        <p class="plan-header-value">{{ $package->speed }} Mbps</p>
                                         <p class="plan-header-text">Download Speeds</p>
                                     </li>
                                     <li>
-                                        <p class="plan-header-title">Speed Up</p>
-                                        <p class="plan-header-aftertitle">{{ $package->up_speed }} Mbps</p>
+                                        <p class="plan-header-title">Upload Speed</p>
+                                        <p class="plan-header-value">{{ $package->up_speed }} Mbps</p>
                                     </li>
                                 </ul>
-                                <img alt="" src="{{ asset('/') }}frontend/images/price-img1.png">
                             </div>
 
-                            <div class="plan-features">
-                                {{ $package->description }}
-
+                            <!-- Plan Features -->
+                            <div class="plan-features text-center">
+                                <p>{{ $package->description }}</p>
                             </div>
 
-                            <div class="price-wrap pb-5">
-                                <span class="plan-sign">$</span>
-                                <span class="plan-price">{{ $package->price }}</span>
+                            <!-- Pricing -->
+                            <div class="price-wrap text-center pb-4">
+                                <span class="plan-price">Taka {{ $package->price }}</span>
                                 <span class="plan-decimals">/mo</span>
                             </div>
 
-                            {{-- <div class="plan-button">
-                            <a href="#" class="btn btn-maincolor">Read</a>
-                        </div> --}}
+                            <!-- Optional Button -->
+                            <div class="text-center py-4">
+                                {{-- <a href="#" class="btn btn-primary">Order</a> --}}
+                                <button type="button" class="btn transparent-btn editCatBtn"
+                                    data-title="{{ $package->title }}"
+                                    data-route="{{ route('package.order', $package->id) }}">Get
+                                    Started</button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -79,4 +85,41 @@
             </div>
         </div>
     </section>
+
+    <!-- Edit Modal -->
+    <div id="editCatModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 id="title_name">Order for</h4>
+                </div>
+                <form id="editForm" class="px-3" action="" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input class="form-control" type="text" id="name" name="name" required
+                            placeholder="Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input class="form-control" type="email" id="email" name="email" required
+                            placeholder="Email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile" class="form-label">Mobile</label>
+                        <input class="form-control" type="number" id="mobile" name="mobile" required
+                            placeholder="mobile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control" id="address" name="address" required placeholder="address"></textarea>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <button class="btn btn-primary" type="submit">Order</button>
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 @endsection

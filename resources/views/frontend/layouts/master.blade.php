@@ -3,12 +3,12 @@
 <!--<![endif]-->
 
 <head>
-    <title>JellyNet - Bootstrap 4 HTML template</title>
+    <title>smartnet</title>
     <meta charset="utf-8">
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="icon" type="image/png" href="{{ asset('/') }}frontend/images/logo_light.png">
     @include('frontend.includes.style')
 
 </head>
@@ -153,6 +153,28 @@
 
     <script src="{{ asset('/') }}frontend/js/compressed.js"></script>
     <script src="{{ asset('/') }}frontend/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            (function($) {
+                "use strict";
+
+                $('.createCatBtn').on('click', function() {
+                    var modal = $('#addCatModal');
+                    modal.modal('show');
+                });
+
+                $('.editCatBtn').on('click', function() {
+                    var modal = $('#editCatModal');
+                    let data = $(this).data();
+                    let url = data.route;
+
+                    $('#editForm').attr('action', url);
+                    $('#title_name').text('Order for ' + data.title);
+                    modal.modal('show');
+                });
+            })(jQuery);
+        });
+    </script>
 
 </body>
 

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Contact;
+use App\Models\Banner;
 use Illuminate\Support\ServiceProvider;
 use View;
 
@@ -21,8 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['*'],callback: function ($view){
+        View::composer(['*'], function ($view){
             $view->with('contact_home', Contact::latest()->first());
+            $view->with('banner_image', Banner::latest()->first());
         });
     }
 }
